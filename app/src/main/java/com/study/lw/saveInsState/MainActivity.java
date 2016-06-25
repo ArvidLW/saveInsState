@@ -3,16 +3,41 @@ package com.study.lw.saveInsState;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Window;
+//import android.view.Window;
+//import android.view.WindowManager;
 
 
 public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        /**
+         * 注意Activity与AppCompatActivity的区别，前者没有titlebar后者有titlebar
+         *
+         * 屏幕旋转系统会自动销毁activity并重新创建
+         */
+        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if(savedInstanceState !=null)
+        {
+            Log.d("lwtest","savedInstanceState不为空");
+        }
+
+        super.onCreate(savedInstanceState);
+        /**
+         *  requestWindowFeature();的取值
+            1.DEFAULT_FEATURES：系统默认状态，一般不需要指定
+            2.FEATURE_CONTEXT_MENU：启用ContextMenu，默认该项已启用，一般无需指定
+            3.FEATURE_CUSTOM_TITLE：自定义标题。当需要自定义标题时必须指定。如：标题是一个按钮时
+            4.FEATURE_INDETERMINATE_PROGRESS：不确定的进度
+            5.FEATURE_LEFT_ICON：标题栏左侧的图标
+            6.FEATURE_NO_TITLE：无标题
+            7.FEATURE_OPTIONS_PANEL：启用“选项面板”功能，默认已启用。
+            8.FEATURE_PROGRESS：进度指示器功能
+            9.FEATURE_RIGHT_ICON:标题栏右侧的图标
+        */
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        //        WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
         //状态 判断
@@ -25,6 +50,12 @@ public class MainActivity extends AppCompatActivity{
         }
 
     }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("lw","执行onstart");
+    }
+
 
     /**
      * 当某个activity变得“容易”被系统销毁时，该activity的onSaveInstanceState就会被执行，
