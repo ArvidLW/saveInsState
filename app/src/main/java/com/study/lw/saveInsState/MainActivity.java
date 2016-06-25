@@ -16,14 +16,41 @@ public class MainActivity extends AppCompatActivity{
          * 注意Activity与AppCompatActivity的区别，前者没有titlebar后者有titlebar
          *
          * 屏幕旋转系统会自动销毁activity并重新创建
+         *
+         * 测试最后发现开始savedInstanceState是一个空对象，值为null
+         * 当onSaveInstanceState方法执行后，保存相应的状态，这时savedInstanceState就不为空了
+         * 例如，当启动后，再旋转屏幕时，saveInstanceState就从null变为非空了，在FragmentActivity中
+         * 有相应的判断SavedInstanceState并进行相关操作的代码，具体作用不知道，大概是记录状态
          */
+        //Bundle lwBundle= new Bundle();
+        Bundle lwBundle=null;
         //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         if(savedInstanceState !=null)
         {
             Log.d("lwtest","savedInstanceState不为空");
         }
+        System.out.println(lwBundle);
+        //这里lwBundle不是空的
+        if(lwBundle ==null)
+        {
+            Log.d("lwtest2","lwBundle is empty");
+        }
+        else{
+            Log.d("lwtest2","lwBundle is not empty");
 
-        super.onCreate(savedInstanceState);
+        }
+        Log.d("d","sd");
+        System.out.println(savedInstanceState);
+        //当activitity被重新创建的时候，如果saveInstanceState不为空，和为空两个执得的操作一样吗，区别在哪
+        super.onCreate(lwBundle);
+        if(lwBundle ==null)
+        {
+            Log.d("lwtest3","lwBundle is empty");
+        }
+        else{
+            Log.d("lwtest3","lwBundle is not empty");
+
+        }
         /**
          *  requestWindowFeature();的取值
             1.DEFAULT_FEATURES：系统默认状态，一般不需要指定
@@ -73,7 +100,7 @@ public class MainActivity extends AppCompatActivity{
     public void onSaveInstanceState(Bundle savedInstanceState) {
         Log.d("HELLO", "HELLO：当Activity被销毁的时候，不是用户主动按back销毁，例如按了home键");
         super.onSaveInstanceState(savedInstanceState);
-        savedInstanceState.putString("username", "initphp"); //这里保存一个用户名
+       // savedInstanceState.putString("username", "initphp"); //这里保存一个用户名
     }
 
     /**
